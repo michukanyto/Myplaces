@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -22,6 +23,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private List<Address> listAddresses;
     private Geocoder geocoder;
+    private String newAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +48,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 try {
-                    listAddresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
-                    mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Sydney"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    listAddresses =  geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+                    getAddress();
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(newAddress).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,19));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                android.util.Log.i("onMapClick", "new point ===> !"+latLng.latitude + ","+latLng.longitude);
+                android.util.Log.i("onMapClick", "new point ===> !"+latLng.latitude + ","+latLng.longitude + "," + newAddress);
             }
         });
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    private void getAddress() {
+        newAddress = "";
+        if (listAddresses.get(0).getThoroughfare() != null) {
+            newAddress += listAddresses.get(0).getThoroughfare() + ", ";
+        }
+
+
+        if (listAddresses.get(0).getLocality() != null) {
+            newAddress += listAddresses.get(0).getLocality();
+        }
+
+//        if (listAddresses.get(0).getAdminArea() != null) {
+//            anAddress += listAddresses.get(0).getAdminArea();
+//        }
     }
 }
