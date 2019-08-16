@@ -1,7 +1,9 @@
 package com.appsmontreal.myplaces;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -24,6 +26,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Address> listAddresses;
     private Geocoder geocoder;
     private String newAddress;
+    private MemorablePlace memorablePlace;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        memorablePlace = (MemorablePlace) this;
     }
 
 
@@ -62,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     e.printStackTrace();
                 }
                 android.util.Log.i("onMapClick", "new point ===> !"+latLng.latitude + ","+latLng.longitude + "," + newAddress);
+                memorablePlace.getNewMemorablePlace(latLng.latitude,latLng.longitude,newAddress);
             }
         });
 
@@ -69,17 +75,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void getAddress() {
         newAddress = "";
-        if (listAddresses.get(0).getThoroughfare() != null) {
-            newAddress += listAddresses.get(0).getThoroughfare() + ", ";
-        }
+        if (listAddresses != null && listAddresses.size() > 0) {
+            if (listAddresses.get(0).getThoroughfare() != null) {
+                newAddress += listAddresses.get(0).getThoroughfare() + ", ";
+            }
 
 
-        if (listAddresses.get(0).getLocality() != null) {
-            newAddress += listAddresses.get(0).getLocality();
-        }
+            if (listAddresses.get(0).getLocality() != null) {
+                newAddress += listAddresses.get(0).getLocality();
+            }
 
 //        if (listAddresses.get(0).getAdminArea() != null) {
 //            anAddress += listAddresses.get(0).getAdminArea();
 //        }
+        }
+
     }
 }

@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MemorablePlace {
     private ImageButton goMapsImageButton;
     private ListView placesListView;
     private EditText filterEditText;
@@ -29,11 +29,17 @@ public class MainActivity extends AppCompatActivity {
         goMapsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("------------", "We're here");
                 intent = new Intent(view.getContext(),MapsActivity.class);
                 startActivity(intent);
+//                startActivityForResult(intent,1);
             }
         });
 
+
+    }
+
+    @Override
+    public void getNewMemorablePlace(double latitude, double longitude, String address) {
+        Log.i("\n\n------------>", "We're here" + " address\n\n");
     }
 }
