@@ -4,10 +4,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
+import com.appsmontreal.myplaces.Model.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,7 +28,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Address> listAddresses;
     private Geocoder geocoder;
     private String newAddress;
-    private MemorablePlace memorablePlace;
+    private Intent intent;
+    private Place place;
+//    private MemorablePlace memorablePlace;
+
 
 
     @Override
@@ -37,8 +42,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        memorablePlace = (MemorablePlace) this;
     }
+
+
 
 
     /**
@@ -52,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+//        memorablePlace = (MemorablePlace) getApplicationContext();
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
@@ -67,7 +74,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     e.printStackTrace();
                 }
                 android.util.Log.i("onMapClick", "new point ===> !"+latLng.latitude + ","+latLng.longitude + "," + newAddress);
-                memorablePlace.getNewMemorablePlace(latLng.latitude,latLng.longitude,newAddress);
+                place = new Place(newAddress,latLng.latitude,latLng.longitude);
+//                memorablePlace.getNewMemorablePlace(latLng.latitude,latLng.longitude,newAddress);
+                intent = new Intent();
+                intent.putExtra("NEW_POINT",place);
+                setResult(RESULT_OK,intent);
             }
         });
 
@@ -85,9 +96,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 newAddress += listAddresses.get(0).getLocality();
             }
 
-//        if (listAddresses.get(0).getAdminArea() != null) {
-//            anAddress += listAddresses.get(0).getAdminArea();
-//        }
+        if (listAddresses.get(0).getCountryName() != null) {
+            newAddress += listAddresses.get(0).getCountryName();
+        }
         }
 
     }
