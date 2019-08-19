@@ -42,19 +42,19 @@ public class MainActivity extends AppCompatActivity implements MemorablePlace {
         });
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i("------------>", "We're here onRestart ------->");
-        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,Place.places);
-        placesListView.setAdapter(arrayAdapter);
-        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                launchMapActivity(Place.places.get(i).getLatitude(), Place.places.get(i).getLongitude());
-            }
-        });
-    }
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        Log.i("------------>", "We're here onRestart ------->");
+//        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,Place.places);
+//        placesListView.setAdapter(arrayAdapter);
+//        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                launchMapActivity(Place.places.get(i).getLatitude(), Place.places.get(i).getLongitude());
+//            }
+//        });
+//    }
 
     private void launchMapActivity(double latitude, double longitude) {
         intent = new Intent(this,MapsActivity.class);
@@ -67,6 +67,14 @@ public class MainActivity extends AppCompatActivity implements MemorablePlace {
     @Override
     public void getNewMemorablePlace(Place place) {
         Log.i("\n\n------------>", "interface method" + place + "\n\n");
+        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,Place.places);
+        placesListView.setAdapter(arrayAdapter);
+        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                launchMapActivity(Place.places.get(i).getLatitude(), Place.places.get(i).getLongitude());
+            }
+        });
     }
 
 }

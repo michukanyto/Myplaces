@@ -32,7 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Place place;
     private double latitude;
     private double longitude;
-//    private MemorablePlace memorablePlace;
+    private MemorablePlace memorablePlace;
 
 
 
@@ -63,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        memorablePlace = (MemorablePlace) getApplicationContext();
+        memorablePlace = (MemorablePlace) getParent();
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         LatLng startPosition = new LatLng(latitude,longitude);
@@ -86,7 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 android.util.Log.i("onMapClick", "new point ===> !"+latLng.latitude + ","+latLng.longitude + "," + newAddress);
                 place = new Place(newAddress,latLng.latitude,latLng.longitude);
-//                memorablePlace.getNewMemorablePlace(latLng.latitude,latLng.longitude,newAddress);
+                memorablePlace.getNewMemorablePlace(place);
 
             }
         });
