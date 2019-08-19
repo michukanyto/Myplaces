@@ -37,9 +37,7 @@ public class MainActivity extends AppCompatActivity implements MemorablePlace {
         goMapsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                intent = new Intent(view.getContext(),MapsActivity.class);
-//                startActivityForResult(intent,1);
-                launchMapActivity();
+                launchMapActivity(45.5017,73.5673);
             }
         });
     }
@@ -53,16 +51,17 @@ public class MainActivity extends AppCompatActivity implements MemorablePlace {
         placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                launchMapActivity();
+                launchMapActivity(Place.places.get(i).getLatitude(), Place.places.get(i).getLongitude());
             }
         });
     }
 
-    private void launchMapActivity() {
+    private void launchMapActivity(double latitude, double longitude) {
         intent = new Intent(this,MapsActivity.class);
+        intent.putExtra("LATITUDE",latitude);
+        intent.putExtra("LONGITUDE",longitude);
         startActivityForResult(intent,1);
     }
-
 
 
     @Override
@@ -70,8 +69,4 @@ public class MainActivity extends AppCompatActivity implements MemorablePlace {
         Log.i("\n\n------------>", "interface method" + place + "\n\n");
     }
 
-//    @Override
-//    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//    }
 }

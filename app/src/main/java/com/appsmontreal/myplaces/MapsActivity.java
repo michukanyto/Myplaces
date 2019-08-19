@@ -30,6 +30,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String newAddress;
     private Intent intent;
     private Place place;
+    private double latitude;
+    private double longitude;
 //    private MemorablePlace memorablePlace;
 
 
@@ -42,6 +44,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        intent = getIntent();
+        latitude = (double) intent.getIntExtra("LATITUDE",0);
+        longitude = (double) intent.getIntExtra("LONGITUDE",0);
     }
 
 
@@ -58,9 +63,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-//        memorablePlace = (MemorablePlace) getApplicationContext();
+        memorablePlace = (MemorablePlace) getApplicationContext();
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        LatLng startPosition = new LatLng(latitude,longitude);
+
+        mMap.addMarker(new MarkerOptions().position(startPosition).title("You're here"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(startPosition));
+
+
         geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -76,9 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 android.util.Log.i("onMapClick", "new point ===> !"+latLng.latitude + ","+latLng.longitude + "," + newAddress);
                 place = new Place(newAddress,latLng.latitude,latLng.longitude);
 //                memorablePlace.getNewMemorablePlace(latLng.latitude,latLng.longitude,newAddress);
-                intent = new Intent();
-                intent.putExtra("NEW_POINT",place);
-                setResult(RESULT_OK,intent);
+
             }
         });
 
