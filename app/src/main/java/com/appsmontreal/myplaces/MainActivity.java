@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements MemorablePlace {
     private EditText filterEditText;
     private Intent intent;
     private ArrayAdapter<Place> arrayAdapter;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,12 @@ public class MainActivity extends AppCompatActivity implements MemorablePlace {
         filterEditText = findViewById(R.id.filterEditText);
         placesListView = findViewById(R.id.placesListView);
 
+        latitude = 45.5017;
+        longitude = -73.5673;
         goMapsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchMapActivity(45.5017,73.5673);
+                launchMapActivity(latitude,longitude);
             }
         });
     }

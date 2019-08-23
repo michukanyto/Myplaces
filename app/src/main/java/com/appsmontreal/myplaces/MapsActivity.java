@@ -45,8 +45,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         intent = getIntent();
-        latitude = (double) intent.getIntExtra("LATITUDE",0);
-        longitude = (double) intent.getIntExtra("LONGITUDE",0);
+        latitude =  intent.getDoubleExtra("LATITUDE",0);
+        longitude = intent.getDoubleExtra("LONGITUDE",0);
+
     }
 
 
@@ -63,14 +64,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        memorablePlace = (MemorablePlace) getApplicationContext();
+//        memorablePlace = (MemorablePlace) getApplicationContext();
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         LatLng startPosition = new LatLng(latitude,longitude);
 
         mMap.addMarker(new MarkerOptions().position(startPosition).title("You're here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(startPosition));
-
+        mMap.addMarker(new MarkerOptions().position(startPosition).title(newAddress).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPosition,19));
 
         geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -80,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     listAddresses =  geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
                     getAddress();
                     mMap.addMarker(new MarkerOptions().position(latLng).title(newAddress).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,19));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,19));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
