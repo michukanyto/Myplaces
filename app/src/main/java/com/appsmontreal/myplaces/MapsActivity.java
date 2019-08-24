@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.appsmontreal.myplaces.Model.Place;
@@ -32,7 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Place place;
     private double latitude;
     private double longitude;
-//    private MemorablePlace memorablePlace;
+
 
 
 
@@ -64,7 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-//        memorablePlace = (MemorablePlace) getApplicationContext();
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         LatLng startPosition = new LatLng(latitude,longitude);
@@ -88,8 +89,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 android.util.Log.i("onMapClick", "new point ===> !"+latLng.latitude + ","+latLng.longitude + "," + newAddress);
                 place = new Place(newAddress,latLng.latitude,latLng.longitude);
-//                memorablePlace.getNewMemorablePlace(latLng.latitude,latLng.longitude,newAddress);
-
             }
         });
 

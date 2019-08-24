@@ -1,9 +1,5 @@
 package com.appsmontreal.myplaces.Model;
 
-import android.content.Context;
-
-import com.appsmontreal.myplaces.MemorablePlace;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
