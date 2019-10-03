@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         latitudes.clear();
         longitudes.clear();
         fillUpList();
+
     }
 
     @Override
@@ -152,13 +153,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         fillUpList();
-        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                launchMapActivity(Place.places.get(i).getLatitude(), Place.places.get(i).getLongitude());
-                launchMapActivity(Double.parseDouble(latitudes.get(i)), Double.parseDouble(longitudes.get(i)));
-            }
-        });
+//        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+////                launchMapActivity(Place.places.get(i).getLatitude(), Place.places.get(i).getLongitude());
+//                launchMapActivity(Double.parseDouble(latitudes.get(i)), Double.parseDouble(longitudes.get(i)));
+//            }
+//        });
     }
 
     private void launchMapActivity(double latitude, double longitude) {
@@ -179,6 +180,14 @@ public class MainActivity extends AppCompatActivity {
         Log.i("------------>Array", placesName.toString());
         arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,placesName);
         placesListView.setAdapter(arrayAdapter);
+
+        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                launchMapActivity(Place.places.get(i).getLatitude(), Place.places.get(i).getLongitude());
+                launchMapActivity(Double.parseDouble(latitudes.get(i)), Double.parseDouble(longitudes.get(i)));
+            }
+        });
     }
 
 
