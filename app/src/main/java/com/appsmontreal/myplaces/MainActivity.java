@@ -15,6 +15,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ImageButton goMapsImageButton;
     private ListView placesListView;
-    private EditText filterEditText;
+    private EditText editTextFilter;
     private Intent intent;
     private ArrayAdapter<String> arrayAdapter;
     private LocationManager locationManager;
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> longitudes;
 
     SharedPreferences sharedPreferences;
-//    SharedPreferences.Editor editor;
     ObjectSerializer objectSerializer;
 
 
@@ -68,8 +69,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         goMapsImageButton = findViewById(R.id.goMapsImageButton);
-        filterEditText = findViewById(R.id.filterEditText);
+        editTextFilter = findViewById(R.id.editTextFilter);
         placesListView = findViewById(R.id.placesListView);
+
+        //Code for the expression's filter(search)
+        editTextFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                (MainActivity.this).arrayAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         ///////////////////////////
