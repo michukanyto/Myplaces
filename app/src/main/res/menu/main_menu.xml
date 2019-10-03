@@ -3,5 +3,6 @@
     <item android:title="Profile" android:id="@+id/profil"></item>
     <item android:title="Help" android:id="@+id/help"></item>
     <item android:title="Exit" android:id="@+id/exit"></item>
+    <item android:title="Map" android:id="@+id/map"></item>
 
 </menu>

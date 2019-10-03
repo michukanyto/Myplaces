@@ -111,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
 
+            case    R.id.map:
+                launchMapActivity(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
+                return true;
+
             default:
                 return false;
         }
