@@ -1,4 +1,4 @@
-package com.appsmontreal.myplaces;
+package com.appsmontreal.myplaces.Serializer;
 
 import android.util.Log;
 

@@ -18,6 +18,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.appsmontreal.myplaces.Model.Place;
+import com.appsmontreal.myplaces.Serializer.ObjectSerializer;
 
 import java.util.ArrayList;
 
@@ -76,6 +80,39 @@ public class MainActivity extends AppCompatActivity {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             }
 
+        }
+
+    }
+
+
+    //To inflate the menu in this activity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.profil:
+                Log.i("----------------->", "you pressed profile");
+                return true;
+
+            case    R.id.help:
+                Log.i("----------------->", "you pressed Help");
+                return true;
+
+            case    R.id.exit:
+                finish();
+                return true;
+
+            default:
+                return false;
         }
 
     }
