@@ -38,14 +38,30 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Location lastKnownLocation;
-
-    /////////////////
     private ArrayList<String> placesName;
     private ArrayList<String> latitudes;
     private ArrayList<String> longitudes;
 
     SharedPreferences sharedPreferences;
     ObjectSerializer objectSerializer;
+
+    public enum constants {
+        LATITUDE("LATITUDE"),
+        LONGITUDE("LONGITUDE"),
+        FILENAME("placesData"),
+        PLACESNAME("placesName"),
+        PLACESLATITUDES("latitudes"),
+        PLACESLONGITUDES("longitudes");
+
+        public String getValue () {
+            return value;
+        }
+
+        private String value;
+        constants(String value) {
+            this.value = value;
+        }
+    }
 
 
 
@@ -90,9 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        ///////////////////////////
-        sharedPreferences = getSharedPreferences("placesData", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(constants.FILENAME.getValue(), Context.MODE_PRIVATE);
         placesName = new ArrayList<>();
         latitudes = new ArrayList<>();
         longitudes = new ArrayList<>();
@@ -148,11 +162,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-
         Log.i("------------>", "We're here onRestart ------->");
-//        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,Place.places);
-//        placesListView.setAdapter(arrayAdapter);
-
 
         for (Place place : Place.places) {
             placesName.add(place.getAddress());
@@ -163,36 +173,30 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         try {
-            editor.putString("placesName", objectSerializer.serialize(placesName)).apply();
-            editor.putString("latitudes", objectSerializer.serialize(latitudes)).apply();
-            editor.putString("longitudes", objectSerializer.serialize(longitudes)).apply();
+            editor.putString(constants.PLACESNAME.getValue(), objectSerializer.serialize(placesName)).apply();
+            editor.putString(constants.PLACESLATITUDES.getValue(), objectSerializer.serialize(latitudes)).apply();
+            editor.putString(constants.PLACESLONGITUDES.getValue(), objectSerializer.serialize(longitudes)).apply();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
         fillUpList();
-//        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-////                launchMapActivity(Place.places.get(i).getLatitude(), Place.places.get(i).getLongitude());
-//                launchMapActivity(Double.parseDouble(latitudes.get(i)), Double.parseDouble(longitudes.get(i)));
-//            }
-//        });
     }
+
 
     private void launchMapActivity(double latitude, double longitude) {
         intent = new Intent(this,MapsActivity.class);
-        intent.putExtra("LATITUDE",latitude);
-        intent.putExtra("LONGITUDE",longitude);
+        intent.putExtra(constants.LATITUDE.getValue(),latitude);
+        intent.putExtra(constants.LONGITUDE.getValue(),longitude);
         startActivityForResult(intent,1);
     }
 
+
     private void fillUpList() {
         try {
-            placesName = (ArrayList<String>) objectSerializer.deserialize(sharedPreferences.getString("placesName",objectSerializer.serialize(new ArrayList<String>())));
-            latitudes = (ArrayList<String>) objectSerializer.deserialize(sharedPreferences.getString("latitudes",objectSerializer.serialize(new ArrayList<String>())));
-            longitudes = (ArrayList<String>) objectSerializer.deserialize(sharedPreferences.getString("longitudes",objectSerializer.serialize(new ArrayList<String>())));
+            placesName = (ArrayList<String>) objectSerializer.deserialize(sharedPreferences.getString(constants.PLACESNAME.getValue(),objectSerializer.serialize(new ArrayList<String>())));
+            latitudes = (ArrayList<String>) objectSerializer.deserialize(sharedPreferences.getString(constants.PLACESLATITUDES.getValue(),objectSerializer.serialize(new ArrayList<String>())));
+            longitudes = (ArrayList<String>) objectSerializer.deserialize(sharedPreferences.getString(constants.PLACESLONGITUDES.getValue(),objectSerializer.serialize(new ArrayList<String>())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,6 +212,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }
