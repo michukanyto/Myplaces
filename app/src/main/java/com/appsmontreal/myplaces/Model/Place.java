@@ -8,7 +8,7 @@ public class Place implements Serializable  {
     private double latitude;
     private double longitude;
     public static ArrayList<Place> places = new ArrayList<>();
-    private MemorablePlace memorablePlace;
+//    private MemorablePlace memorablePlace;
 
 
     public Place(String address, double latitude, double longitude) {

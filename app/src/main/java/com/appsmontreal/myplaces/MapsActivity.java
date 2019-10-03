@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationListener;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,8 +38,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double longitude;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +49,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         intent = getIntent();
         latitude =  intent.getDoubleExtra("LATITUDE",0);
         longitude = intent.getDoubleExtra("LONGITUDE",0);
+//        myPlaces =  new ArrayList<>();
+//        sharedPreferences = this.getSharedPreferences("places",Context.MODE_PRIVATE);
 
     }
 
@@ -98,18 +100,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         newAddress = "";
         if (listAddresses != null && listAddresses.size() > 0) {
             if (listAddresses.get(0).getThoroughfare() != null) {
-                newAddress += listAddresses.get(0).getThoroughfare() + ", ";
+                newAddress += listAddresses.get(0).getThoroughfare() + ", (";
             }
-
 
             if (listAddresses.get(0).getLocality() != null) {
-                newAddress += listAddresses.get(0).getLocality();
+                newAddress += listAddresses.get(0).getLocality() + ", ";
             }
 
-        if (listAddresses.get(0).getCountryName() != null) {
-            newAddress += listAddresses.get(0).getCountryName();
+            if (listAddresses.get(0).getCountryName() != null) {
+                newAddress += listAddresses.get(0).getCountryName() + ")";
+            }
         }
-        }
+//        myPlaces.add(newAddress);
+//        editor.putString("placesList",objectSerializer.serialize(myPlaces).apply());
 
     }
 }
