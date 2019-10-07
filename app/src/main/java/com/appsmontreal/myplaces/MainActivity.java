@@ -1,12 +1,14 @@
 package com.appsmontreal.myplaces;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -128,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
         goMapsImageButton = findViewById(R.id.goMapsImageButton);
         editTextFilter = findViewById(R.id.editTextFilter);
         placesListView = findViewById(R.id.placesListView);
+        launchAlert();
+
 
         //Code for the expression's filter(search)
         editTextFilter.addTextChangedListener(new TextWatcher() {
@@ -198,6 +202,21 @@ public class MainActivity extends AppCompatActivity {
         longitudes.clear();
         fillUpList();
 
+    }
+
+    private void launchAlert() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.alert_light_frame)
+                .setTitle("Be Alert")
+                .setMessage("Do you want to save your locations?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("No",null)
+                .show();
     }
 
     @Override
