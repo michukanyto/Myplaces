@@ -206,13 +206,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchAlert() {
         new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.alert_light_frame)
-                .setTitle("Be Alert")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Alert")
                 .setMessage("Do you want to save your locations?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        Log.i("------------>", "You pressed Yes");
                     }
                 })
                 .setNegativeButton("No",null)
